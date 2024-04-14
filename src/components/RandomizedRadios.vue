@@ -24,10 +24,10 @@ export default {
 };
 </script>
 <template>
-  <template v-for="(option, index) in shuffledOptions" :key="index">
+  <div v-for="(option, index) in shuffledOptions" :key="index">
     <input type="radio" :id="'option' + index" :value="option.name" v-model="selectedOptions">
     <label :for="'option' + index" :class="`answer-${option.correct}`">{{ option.name }}</label>
-  </template>
+  </div>
 </template>
 <style scoped>
 input:checked {

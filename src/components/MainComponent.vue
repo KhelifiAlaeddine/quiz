@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import RandomizedCheckboxes from './RandomizedCheckboxes.vue';
+import RandomizedRadios from './RandomizedRadios.vue';
 
 let ayah = ref('');
 let chapter = ref ('')
@@ -44,45 +44,38 @@ async function getTextFromAyahKey (AyahKey) {
   return text
 }
 
-function createQuiz () {
-//get random ayah
-getRandomAyah().then((AyahKey)=> {
-  //add ayah key to ayah reference
-  ayah.key = AyahKey
-  getTextFromAyahKey(AyahKey).then((text)=>{
-  	ayah.value=text
-  })
-  //get chapterId from ayahKey
-  const chapterId = AyahKey.split(':')[0]
-  //get chapter name from chapterId
-  getChapterName(chapterId).then((chapterName)=>{
-    //add chapter name to ayah reference
-    ayah.chapter = chapterName
-    options.value.push({ name: chapterName, correct: true })
-     //generate first random chapter
-    generateRandomChapter (1,114,chapterId).then((fakeResponse1)=> {
-      //get name for the first random chapter
-      getChapterName(fakeResponse1).then((fakeChapter1)=> {
-        options.value.push({ name: fakeChapter1, correct: false })
-      })
-      //generate second random chapter
-      generateRandomChapter(1,114,chapterId,fakeResponse1).then((fakeResponse2)=>{
-        //get name for the second random chapter
-        getChapterName(fakeResponse2).then((fakeChapter2)=> {
-        options.value.push({ name: fakeChapter2, correct: false })        
-        })
-      })
-    }) 
-  })
-})      
+async function createQuiz() {
+  try {
+    const AyahKey = await getRandomAyah();
+    ayah.key = AyahKey;
+
+    const text = await getTextFromAyahKey(AyahKey);
+    ayah.value = text;
+
+    const chapterId = AyahKey.split(':')[0];
+    const chapterName = await getChapterName(chapterId);
+    ayah.chapter = chapterName;
+    options.value.push({ name: chapterName, correct: true });
+
+    const fakeResponse1 = await generateRandomChapter(1, 114, chapterId);
+    const fakeChapter1 = await getChapterName(fakeResponse1);
+    options.value.push({ name: fakeChapter1, correct: false });
+
+    const fakeResponse2 = await generateRandomChapter(1, 114, chapterId, fakeResponse1);
+    const fakeChapter2 = await getChapterName(fakeResponse2);
+    options.value.push({ name: fakeChapter2, correct: false });
+  } catch (error) {
+    console.error('Error creating quiz:', error);
+  }
 }
+
 
 createQuiz()
 </script>
 
 <template>
   <p>{{ ayah }}</p>
-  <randomized-checkboxes :options=options />
+  <randomized-radios :options=options />
 </template>
 
 <style scoped>
