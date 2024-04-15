@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import RandomizedRadios from './RandomizedRadios.vue';
 
 let ayah = ref('');
 let chapter = ref ('')
 let options = ref ([])
 let url = `https://api.quran.com/api/v4`;
+
 
 async function getRandomAyah() {
   // verse=ayah
@@ -53,7 +54,7 @@ async function createQuiz() {
     const text = await getTextFromAyahKey(AyahKey);
     ayah.value = text;
 
-    const chapterId = AyahKey.split(':')[0];
+    const chapterId = parseInt(AyahKey.split(':')[0]);
     const chapterName = await getChapterName(chapterId);
     ayah.chapter = chapterName;
     options.value.push({ name: chapterName, correct: true,id: chapterId});
@@ -65,6 +66,9 @@ async function createQuiz() {
     const fakeResponse2 = await generateRandomChapter(1, 114, chapterId, fakeResponse1);
     const fakeChapter2 = await getChapterName(fakeResponse2);
     options.value.push({ name: fakeChapter2, correct: false,id: fakeResponse2 });
+
+    options.value = options.value.sort(() => Math.random() - 0.5);
+
   } catch (error) {
     console.error('Error creating quiz:', error);
   }
