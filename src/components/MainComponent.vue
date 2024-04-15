@@ -79,11 +79,13 @@ createQuiz()
 </script>
 
 <template>
-  <p>{{ ayah }}</p>
-  <randomized-radios :options=options />
-  <button type="button" @click="createQuiz">أعطني آية أخرى</button>
+  <div class=" text-lg flex align-center flex-col  p-4 m-4">
+    
+    <p class="mb-4">{{ ayah }}</p>
+    <p class="text-center">***</p>
+    <randomized-radios :options=options />
+    
+    <button class="rounded border px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">أعطني آية أخرى</button>
+
+  </div>
 </template>
-
-<style scoped>
-
-</style>
