@@ -1,12 +1,11 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import RandomizedRadios from './RandomizedRadios.vue';
 
 let ayah = ref('');
 let chapter = ref ('')
 let options = ref ([])
 let url = `https://api.quran.com/api/v4`;
-
 
 async function getRandomAyah() {
   // verse=ayah
