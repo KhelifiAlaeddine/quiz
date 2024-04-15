@@ -35,7 +35,7 @@ async function generateRandomChapter(min, max, ...values) {
     })
   }
   let num = Math.floor(Math.random() * (max - min + 1)) + min;
-  return (num === values[0] || num === values[1]) ? generateRandomChapter(min, max) : num;
+  return (num === values[0] || num === values[1]) ? generateRandomChapter(min, max, ...values) : num;
 }
 
 async function getTextFromAyahKey (AyahKey) {
@@ -79,13 +79,18 @@ createQuiz()
 </script>
 
 <template>
-  <div class=" text-lg flex align-center flex-col  p-4 m-4">
+  <div class="max-w-screen-sm text-lg flex align-center flex-col  p-4 m-4">
     
-    <p class="mb-4">{{ ayah }}</p>
+    <p dir="rtl" class="mb-4">{{ ayah }}</p>
     <p class="text-center">***</p>
     <randomized-radios :options=options />
+    <div class="flex flex-col sm:flex-row items-center justify-between">
+      <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">اعطيني سورة أخرى</button>
+      <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">زيدني آية أخرى</button>
+      
+    </div>
     
-    <button class="rounded border px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">أعطني آية أخرى</button>
+    
 
   </div>
 </template>
