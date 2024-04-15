@@ -45,6 +45,7 @@ async function getTextFromAyahKey (AyahKey) {
 }
 
 async function createQuiz() {
+  options.value = []
   try {
     const AyahKey = await getRandomAyah();
     ayah.key = AyahKey;
@@ -76,6 +77,7 @@ createQuiz()
 <template>
   <p>{{ ayah }}</p>
   <randomized-radios :options=options />
+  <button type="button" @click="createQuiz">أعطني آية أخرى</button>
 </template>
 
 <style scoped>
