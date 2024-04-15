@@ -55,15 +55,15 @@ async function createQuiz() {
     const chapterId = AyahKey.split(':')[0];
     const chapterName = await getChapterName(chapterId);
     ayah.chapter = chapterName;
-    options.value.push({ name: chapterName, correct: true });
+    options.value.push({ name: chapterName, correct: true,id: chapterId});
 
     const fakeResponse1 = await generateRandomChapter(1, 114, chapterId);
     const fakeChapter1 = await getChapterName(fakeResponse1);
-    options.value.push({ name: fakeChapter1, correct: false });
+    options.value.push({ name: fakeChapter1, correct: false,id: fakeResponse1 });
 
     const fakeResponse2 = await generateRandomChapter(1, 114, chapterId, fakeResponse1);
     const fakeChapter2 = await getChapterName(fakeResponse2);
-    options.value.push({ name: fakeChapter2, correct: false });
+    options.value.push({ name: fakeChapter2, correct: false,id: fakeResponse2 });
   } catch (error) {
     console.error('Error creating quiz:', error);
   }
