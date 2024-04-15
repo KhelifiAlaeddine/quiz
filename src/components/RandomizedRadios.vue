@@ -42,9 +42,9 @@ export default {
 </script>
 <template>
   <div v-for="(option, index) in shuffledOptions" :key="index">
-    <fieldset class="answer" :id="'response-' + option.id">
-      <input type="radio" :id="'option' + index"  :value="option.name" v-model="selectedOptions" @change="verifyResponse(option)">
-      <label :for="'option' + index">{{ option.name }}</label>
+    <fieldset class="answer p-2 border text-center cursor-pointer" :id="'response-' + option.id">
+      <input class="absolute hidden " type="radio" :id="'option' + index"  :value="option.name" v-model="selectedOptions" @change="verifyResponse(option)">
+      <label class="block" :for="'option' + index">{{ option.name }}</label>
     </fieldset>
     
   </div>
