@@ -30,7 +30,7 @@ function verifyResponse(option,options) {
 </script>
 <template>
   <div v-for="(option, index) in options" :key="index">
-    <fieldset class=" answer disabled:text-gray disabled:text-opacity-70 bounce  p-2 border text-center cursor-pointer text-blue-600" :id="'response-' + option.id">
+    <fieldset class=" answer disabled:text-gray disabled:text-opacity-70  p-2 border text-center cursor-pointer text-blue-600" :id="'response-' + option.id">
       <input class="absolute hidden " type="radio" :id="'option' + index"  :value="option.name" v-model="selectedOptions" @change="verifyResponse(option,options)">
       <label class="block" :for="'option' + index">
        <div  class="flex align-center justify-center">
