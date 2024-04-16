@@ -18,6 +18,26 @@ async function getRandomAyah() {
   
 }
 
+async function addAyah() {
+  let nextAyahId= ayah.ayahId+1
+  let nextChapterId = ayah.chapterId
+  const res = await fetch(`${url}/verses/by_key/${nextChapterId}:${nextAyahId}`)
+  const response = await res.json();
+  if(response && response.status=='404') {
+    ayah.value+=' *  '
+    ayah.value+= 'صدق الله العظيم';
+    document.getElementById('addAyahButton').disabled = true;    
+  } else {
+    let key = response.verse.verse_key;
+    const nextText = await getTextFromAyahKey(key);
+    ayah.value+=' * '
+    ayah.value+= nextText;
+    ayah.key=key
+    ayah.ayahId=nextAyahId
+  }
+  
+}
+
 async function getChapterName(chapterId) {
   const ayahChapter = await fetch(`${url}/chapters/${chapterId}`)
   const ayahChapterResponse = await ayahChapter.json()
@@ -46,7 +66,9 @@ async function getTextFromAyahKey (AyahKey) {
 }
 
 async function createQuiz() {
-  options.value = []
+  options.value = []  
+  if(document.getElementById('addAyahButton'))
+    document.getElementById('addAyahButton').disabled = false;
   try {
     const AyahKey = await getRandomAyah();
     ayah.key = AyahKey;
@@ -55,7 +77,9 @@ async function createQuiz() {
     ayah.value = text;
 
     const chapterId = parseInt(AyahKey.split(':')[0]);
-    const chapterName = await getChapterName(chapterId);
+    ayah.chapterId = chapterId;
+    ayah.ayahId = parseInt(AyahKey.split(':')[1])
+    const chapterName = await getChapterName(chapterId);   
     ayah.chapter = chapterName;
     options.value.push({ name: chapterName, correct: true,id: chapterId});
 
@@ -86,7 +110,7 @@ createQuiz()
     <randomized-radios :options=options />
     <div class="flex flex-col sm:flex-row items-center justify-between">
       <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">اعطيني سورة أخرى</button>
-      <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">زيدني آية أخرى</button>
+      <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue disabled:text-gray disabled:text-opacity-70" type="button" id="addAyahButton" @click="addAyah()">زيدني آية أخرى</button>
       
     </div>
     
