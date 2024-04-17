@@ -4,8 +4,16 @@ import RandomizedRadios from './RandomizedRadios/RandomizedRadios.vue';
 import AddAyahButton from './AddAyahButton/AddAyahButton.vue';
 
 let ayah = reactive({});
-let options = ref ([])
+let options = ref ([]);
+let disabledAyahButton  = ref(false);
 let url = `https://api.quran.com/api/v4`;
+
+function hanldeDisableAyahButton(bool) {
+  console.log('clicked from emit',bool)
+  disabledAyahButton = bool;
+  console.log('disabledAyahButton',disabledAyahButton)
+}
+
 
 
 async function getRandomAyah() {
@@ -47,8 +55,7 @@ async function getTextFromAyahKey (AyahKey) {
 
 async function createQuiz() {
   options.value = []  
-  if(document.getElementById('addAyahButton'))
-    document.getElementById('addAyahButton').disabled = false;
+  disabledAyahButton = false;
   try {
     const AyahKey = await getRandomAyah();
     ayah.key = AyahKey;
@@ -86,10 +93,11 @@ createQuiz()
     
     <p dir="rtl" class="mb-4">{{ ayah.value }}</p>
     <p class="text-center">***</p>
-    <randomized-radios :options=options />
+    <p class="text-center">test recuperation disabledAyahButton  {{ disabledAyahButton }}</p>
+    <randomized-radios :options=options @disable-ayah-button="hanldeDisableAyahButton" />
     <div class="flex flex-col sm:flex-row items-center justify-between">
       <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">اعطيني سورة أخرى</button>
-      <add-ayah-button :ayah=ayah :url=url />
+      <add-ayah-button :ayah=ayah :url=url :disabledAyahButton=disabledAyahButton />
     </div>
     
     

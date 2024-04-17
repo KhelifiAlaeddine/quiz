@@ -3,11 +3,12 @@ import { reactive } from 'vue'
 
 const props = defineProps({
   ayah : Object,
-  url : String
+  url : String,
+  disabledAyahButton : Boolean
 });
 const ayah = reactive(props.ayah)   
 const url = props.url;  
-let disabled = false;
+let disabled = props.disabledAyahButton;
 
 
 async function addAyah() {

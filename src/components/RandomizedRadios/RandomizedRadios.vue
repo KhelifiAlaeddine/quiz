@@ -6,8 +6,11 @@ const selectedOptions = ref(null);
 const props = defineProps({
   options: Array,
 });
+const emits = defineEmits(["disableAyahButton"])
+
 
 function verifyResponse(option,options) { 
+  emits("disableAyahButton", true)
   const correctAnswer = options.find(option => option.correct);
   document.querySelectorAll('.answer').forEach((el) => el.setAttribute("disabled", ''));  
   if(option.correct)  {
