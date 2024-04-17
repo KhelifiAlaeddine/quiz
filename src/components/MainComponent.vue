@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue'
-import RandomizedRadios from './RandomizedRadios.vue';
+import { ref } from 'vue'
+import RandomizedRadios from './RandomizedRadios/RandomizedRadios.vue';
 
 let ayah = ref('');
 let chapter = ref ('')
