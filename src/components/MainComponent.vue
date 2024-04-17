@@ -9,9 +9,7 @@ let disabledAyahButton  = ref('');
 let url = `https://api.quran.com/api/v4`;
 
 function hanldeDisableAyahButton(tt) {
-  console.log('clicked from emit',tt)
   disabledAyahButton.value = tt;
-  console.log('disabledAyahButton',disabledAyahButton)
 }
 
 
@@ -93,7 +91,6 @@ createQuiz()
     
     <p dir="rtl" class="mb-4">{{ ayah.value }}</p>
     <p class="text-center">***</p>
-    <p class="text-center">test recuperation disabledAyahButton  {{ disabledAyahButton }}</p>
     <randomized-radios :options=options @disable-ayah="hanldeDisableAyahButton" />
     <div class="flex flex-col sm:flex-row items-center justify-between">
       <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">اعطيني سورة أخرى</button>
