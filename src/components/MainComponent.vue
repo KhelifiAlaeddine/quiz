@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,reactive } from 'vue'
 import RandomizedRadios from './RandomizedRadios/RandomizedRadios.vue';
+import AddAyahButton from './AddAyahButton/AddAyahButton.vue';
 
-let ayah = ref('');
-let chapter = ref ('')
+let ayah = reactive({});
 let options = ref ([])
 let url = `https://api.quran.com/api/v4`;
 
@@ -18,31 +18,11 @@ async function getRandomAyah() {
   
 }
 
-async function addAyah() {
-  let nextAyahId= ayah.ayahId+1
-  let nextChapterId = ayah.chapterId
-  const res = await fetch(`${url}/verses/by_key/${nextChapterId}:${nextAyahId}`)
-  const response = await res.json();
-  if(response && response.status=='404') {
-    ayah.value+=' *  '
-    ayah.value+= 'صدق الله العظيم';
-    document.getElementById('addAyahButton').disabled = true;    
-  } else {
-    let key = response.verse.verse_key;
-    const nextText = await getTextFromAyahKey(key);
-    ayah.value+=' * '
-    ayah.value+= nextText;
-    ayah.key=key
-    ayah.ayahId=nextAyahId
-  }
-  
-}
-
 async function getChapterName(chapterId) {
   const ayahChapter = await fetch(`${url}/chapters/${chapterId}`)
   const ayahChapterResponse = await ayahChapter.json()
   //get the name of that chapter
-  chapter = ayahChapterResponse.chapter.name_arabic
+  let chapter = ayahChapterResponse.chapter.name_arabic
   return chapter
 }
 
@@ -92,7 +72,6 @@ async function createQuiz() {
     options.value.push({ name: fakeChapter2, correct: false,id: fakeResponse2 });
 
     options.value = options.value.sort(() => Math.random() - 0.5);
-
   } catch (error) {
     console.error('Error creating quiz:', error);
   }
@@ -105,13 +84,12 @@ createQuiz()
 <template>
   <div class="max-w-screen-sm text-lg flex align-center flex-col  p-4 m-4">
     
-    <p dir="rtl" class="mb-4">{{ ayah }}</p>
+    <p dir="rtl" class="mb-4">{{ ayah.value }}</p>
     <p class="text-center">***</p>
     <randomized-radios :options=options />
     <div class="flex flex-col sm:flex-row items-center justify-between">
       <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">اعطيني سورة أخرى</button>
-      <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue disabled:text-gray disabled:text-opacity-70" type="button" id="addAyahButton" @click="addAyah()">زيدني آية أخرى</button>
-      
+      <add-ayah-button :ayah=ayah :url=url />
     </div>
     
     
