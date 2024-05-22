@@ -1,9 +1,17 @@
 <script setup>
-import MainComponent from './components/MainComponent.vue'
-</script>
 
+</script>
 <template>
-  <MainComponent />
+  <div id="app" class="max-w-screen-sm text-lg flex align-center flex-col  p-4 m-4">
+    <nav class="border-b-2 border-red mb-4">
+      <router-link to="/">Home</router-link>
+      -------------------
+      <router-link to="/quiz">Quiz</router-link>
+      -------------------
+      <router-link to="/books">Books</router-link>
+    </nav>
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
