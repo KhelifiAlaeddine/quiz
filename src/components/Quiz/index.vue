@@ -1,7 +1,7 @@
 <script setup>
-import { ref,reactive } from 'vue'
-import RandomizedRadios from './RandomizedRadios/RandomizedRadios.vue';
-import AddAyahButton from './AddAyahButton/AddAyahButton.vue';
+import { ref, reactive } from 'vue';
+import RandomizedRadios from '../RandomizedRadios/RandomizedRadios.vue';
+import AddAyahButton from '../AddAyahButton/AddAyahButton.vue';
 
 let ayah = reactive({});
 let options = ref ([]);
@@ -82,13 +82,13 @@ async function createQuiz() {
   }
 }
 
-
 createQuiz()
 </script>
 
 <template>
-  <div class="max-w-screen-sm text-lg flex align-center flex-col  p-4 m-4">
-    
+  <h1 class=" text-green">
+    quiz
+  </h1>
     <p dir="rtl" class="mb-4">{{ ayah.value }}</p>
     <p class="text-center">***</p>
     <randomized-radios :options=options @disable-ayah="hanldeDisableAyahButton" />
@@ -96,8 +96,4 @@ createQuiz()
       <button class="rounded border w-full sm:w-auto px-4 py-2 mt-8 border-blue" type="button" @click="createQuiz">اعطيني سورة أخرى</button>
       <add-ayah-button :ayah=ayah :url=url :disabled=disabledAyahButton />
     </div>
-    
-    
-
-  </div>
 </template>
